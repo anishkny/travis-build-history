@@ -1,0 +1,3 @@
+[build]
+  command = "npm test"
+  functions = "src/"

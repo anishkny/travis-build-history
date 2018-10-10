@@ -1,23 +1,34 @@
-const sut = require('../index.js');
+const getHistory = require('../src/get-history.js');
 const sinon = require('sinon');
 
 it('should get build history', async () => {
-  const res = createMockResponseHandler();
-  await sut.history({ query: { repo: 'eugeneware/gifencoder' } }, res);
-  console.log(res.status.args[0]);
-  console.log(res.send.args[0]);
+  const callback = sinon.fake();
+
+  await getHistory.handler({
+    queryStringParameters: {
+      repo: 'eugeneware/gifencoder',
+    },
+  }, {}, callback);
+
+  console.log(...callback.args);
 });
 
-it('should return 404 for unknown repo', async () => {
-  const res = createMockResponseHandler();
-  await sut.history({ query: { repo: 'anishkny/unknown-f3d86dbcd73a' } }, res);
-  console.log(res.status.args[0]);
-  console.log(res.send.args[0]);
+it('should disallow unknown repo ', async () => {
+  const callback = sinon.fake();
+
+  await getHistory.handler({
+    queryStringParameters: {
+      repo: 'unknown-578b3196/unknown-3f3db7b048ef',
+    },
+  }, {}, callback);
+
+  console.log(...callback.args);
 });
 
-function createMockResponseHandler() {
-  return {
-    status: sinon.fake(),
-    send: sinon.fake(),
-  };
-}
+it('should disallow missing repo argument', async () => {
+  const callback = sinon.fake();
+
+  await getHistory.handler({ queryStringParameters: {}, }, {}, callback);
+
+  console.log(...callback.args);
+});
