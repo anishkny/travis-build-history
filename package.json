@@ -8,6 +8,7 @@
   },
   "devDependencies": {
     "mocha": "^5.2.0",
+    "netlify-lambda": "^0.4.0",
     "sinon": "^6.3.5"
   }
 }
