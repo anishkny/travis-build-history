@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "build": "rm -rf dist; cp -r src dist; netlify-lambda build dist"
   },
   "dependencies": {
     "axios": "^0.18.0"
